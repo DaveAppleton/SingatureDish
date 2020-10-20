@@ -30,10 +30,14 @@ func main() {
 	sig, err := crypto.Sign(hash, mykey.GetKey())
 	v := sig[64]
 	if v < 27 {
+		fmt.Printf("original signature : 0x%02x\n", sig)
+		fmt.Println("updating to make last byte 27 or 28 (not usually needed)")
 		v += 27
 		sig[64] = v
+		fmt.Printf("modified signature : 0x%02x\n", sig)
+	} else {
+		fmt.Printf("signature : %s\n", "0x"+common.Bytes2Hex(sig))
 	}
-	fmt.Printf("length %d, sig = %s\n", len(sig), "0x"+common.Bytes2Hex(sig))
 	r := sig[:0x20]
 	fmt.Println("r = 0x" + common.Bytes2Hex(r))
 	s := sig[0x20:0x40]
